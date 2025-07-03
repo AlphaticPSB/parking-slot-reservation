@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>403 - Forbidden</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ffe6f0, #fff5f9);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .error-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 2px solid #f8c4d7;
+            max-width: 500px;
+        }
+
+        h2 {
+            color: #d63384;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #d63384;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #a61c61;
+        }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <h2>🚫 Access Denied</h2>
+    <p>You are not authorized to access this page.</p>
+    <a href="/home">← Go to Home</a>
+</div>
+</body>
+</html>

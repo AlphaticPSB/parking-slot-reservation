@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ffe6f0, #fff5f9);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            border: 2px solid #f8c4d7;
+            text-align: center;
+        }
+
+        h2 {
+            color: #d63384;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            text-align: left;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            border: 1.5px solid #e6a9b1;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #fff8fb;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #d63384;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #a61c61;
+        }
+
+        p {
+            font-size: 0.95rem;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #d63384;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #a61c61;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login to Parking System</h2>
+
+    <form th:action="@{/login}" method="post">
+        <label>Username:</label>
+        <input type="text" name="username" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p th:if="${param.error}" class="error">❌ Invalid username or password</p>
+    <p th:if="${param.logout}" class="success">✅ Logged out successfully</p>
+    <p th:if="${param.registered}" class="success">✅ Registration successful! Please log in.</p>
+
+    <a href="/register">Don't have an account? Register here</a>
+</div>
+</body>
+</html>

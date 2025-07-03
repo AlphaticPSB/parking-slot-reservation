@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ffe6f0, #fff5f9);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 35px;
+            width: 95%;
+            max-width: 850px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            border: 2px solid #f8c4d7;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.4rem;
+            margin-bottom: 25px;
+            color: #d63384;
+        }
+
+        h3 {
+            color: #b03060;
+            margin-top: 30px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #f8c4d7;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+
+        form {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1.5px solid #e6a9b1;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #fff8fb;
+        }
+
+        button {
+            width: fit-content;
+            padding: 10px 20px;
+            background-color: #d63384;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ad2167;
+        }
+
+        .danger {
+            background-color: #dc3545;
+        }
+
+        .danger:hover {
+            background-color: #a71d2a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #f3c6d3;
+        }
+
+        th {
+            background-color: #ffe6f0;
+            color: #7c1c4f;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #fff1f6;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: #d63384;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #a61c61;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <h2>Admin Dashboard</h2>
+
+    <!-- 🆕 Error message section -->
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
+
+    <h3>Create a Parking Slot</h3>
+    <form th:action="@{/admin/add-slot}" method="post" th:object="${slot}">
+        <label>Slot Number:</label>
+        <input type="text" name="slotNumber" required>
+        <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
+        <button type="submit">Create Slot</button>
+    </form>
+
+    <h3>All Slots</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Slot Number</th>
+            <th>Available</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="slot : ${slots}">
+            <td th:text="${slot.id}">1</td>
+            <td th:text="${slot.slotNumber}">A1</td>
+            <td th:text="${slot.available}">true</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Manage Bookings Section -->
+    <h3>Manage Bookings</h3>
+    <div style="text-align: center;">
+        <!-- Cancel All Bookings -->
+        <form th:action="@{/admin/cancel-all-bookings}" method="post" style="display: inline-block; margin: 0 10px;">
+            <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
+            <button type="submit" class="danger">❌ Cancel All Bookings</button>
+        </form>
+
+        <!-- Cancel User's Bookings -->
+        <form th:action="@{/admin/cancel-user-bookings}" method="post" style="display: inline-block; margin: 20px 10px;">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter username" required>
+            <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
+            <button type="submit" class="danger">❌ Cancel This User's Bookings</button>
+        </form>
+    </div>
+
+    <!-- Booking Records Table -->
+    <h3>Booking Records</h3>
+    <table style="margin: 0 auto;">
+        <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Username</th>
+            <th>Slot Number</th>
+            <th>Booking Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${bookings}">
+            <td th:text="${booking.id}">1</td>
+            <td th:text="${booking.user.username}">user</td>
+            <td th:text="${booking.slot.slotNumber}">A1</td>
+            <td th:text="${#temporals.format(booking.bookingTime, 'yyyy-MM-dd HH:mm')}">2025-07-03 12:33</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/home">← Back to Home</a>
+</div>
+</body>
+</html>

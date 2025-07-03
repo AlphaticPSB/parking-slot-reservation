@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ffe6f0, #fff5f9);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .home-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #f8c4d7;
+            text-align: center;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        li {
+            margin: 12px 0;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #d63384;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #a61c61;
+        }
+    </style>
+</head>
+<body>
+<div class="home-container">
+    <h1>Welcome to the Parking Reservation System</h1>
+
+    <!-- ✅ This will only show if user is logged in -->
+    <p sec:authorize="isAuthenticated()">Logged in as: <span sec:authentication="name"></span></p>
+
+    <!-- ✅ This will show if not logged in -->
+    <p sec:authorize="isAnonymous()">Welcome, Guest!</p>
+
+    <ul>
+        <li><a href="/user/dashboard">User Dashboard</a></li>
+        <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+        <li><a th:href="@{/logout}">Logout</a></li>
+    </ul>
+</div>
+</body>
+</html>
