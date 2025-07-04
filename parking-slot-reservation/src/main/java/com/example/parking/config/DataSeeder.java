@@ -18,26 +18,25 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Check if test user exists
-        if (!userRepository.existsByUsername("testuser")) {
-            User user = new User();
-            user.setUsername("testuser");
-            user.setEmail("test@example.com");
+        // Check if admin user exists
+        if (!userRepository.existsByUsername("PSB")) {
+            User admin = new User();
+            admin.setUsername("PSB");
+            admin.setEmail("PSB@gmail.com");
 
-            // Encode password before saving
-            String rawPassword = "test123";
-            String encodedPassword = passwordEncoder.encode(rawPassword);
-            user.setPassword(encodedPassword);
+            // Encode password "123"
+            String encodedPassword = passwordEncoder.encode("123");
+            admin.setPassword(encodedPassword);
 
-            // ✅ Save role as "USER" (not "ROLE_USER")
-            user.setRole("ADMIN");
+            // Set role as ADMIN
+            admin.setRole("ADMIN");
 
-            user.setEnabled(true); // Optional: ensure user is active
+            admin.setEnabled(true); // ensure account is active
 
-            userRepository.save(user);
-            System.out.println("👉 Test user created: username=testuser, password=test123");
+            userRepository.save(admin);
+            System.out.println("👉 Admin user created: username=PSB, password=123");
         } else {
-            System.out.println("✅ Test user already exists");
+            System.out.println("✅ Admin user already exists");
         }
     }
 }
