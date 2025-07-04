@@ -30,7 +30,7 @@ public class DataSeeder implements CommandLineRunner {
             user.setPassword(encodedPassword);
 
             // ✅ Save role as "USER" (not "ROLE_USER")
-            user.setRole("USER");
+            user.setRole("ADMIN");
 
             user.setEnabled(true); // Optional: ensure user is active
 
